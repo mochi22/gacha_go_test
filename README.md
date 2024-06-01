@@ -1,2 +1,2 @@
 # gacha_go_test
-test
+this is gacha using Golang.
