@@ -10,14 +10,10 @@ import (
 )
 
 func main() {
-	// TODO: ガチャ券10枚、コイン100枚を持ったプレイヤーを作る
 	p := gacha.NewPlayer(10, 100)
 
 	n := inputN(*p)
-	// TODO: gacha.DrawN関数を呼び、変数resultsとsummaryに結果を代入する
 	results, summary := gacha.DrawN(p, n)
-	// fmt.Println(results)
-	// fmt.Println(summary)
 	saveResults(results)
 	saveSummary(summary)
 }
@@ -42,23 +38,20 @@ func inputN(p gacha.Player) int {
 }
 
 func saveResults(results []*gacha.Card) {
-	// TODO: results.txtというファイルを作成する
-
 	f, err := os.Create("results.txt")
-
 	if err != nil {
-		fmt.Println(err)
-		return
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
 
 	defer func() {
 		if err := f.Close(); err != nil {
-			fmt.Println(err)
+			//標準エラー出力にerrを出力する
+			fmt.Fprintln(os.Stderr, err)
 		}
 	}()
 
 	for _, result := range results {
-		// TODO: fmt.Fprintln関数を使ってresultをファイルに出力する
 		_, err = fmt.Fprintln(f, result)
 		if err != nil {
 			fmt.Println(err)
@@ -71,14 +64,12 @@ func saveSummary(summary map[gacha.Rarity]int) {
 	f, err := os.Create("summary.txt")
 	if err != nil {
 		fmt.Println(err)
-		return
+		os.Exit(1)
 	}
 
 	defer func() {
-		// TODO: ファイルを閉じる
-		// エラー発生した場合はfmt.Println関数で出力する
 		if err := f.Close(); err != nil {
-			fmt.Println(err)
+			fmt.Fprintln(os.Stderr, err)
 		}
 
 	}()
